@@ -1,55 +1,53 @@
-// import important parts of sequelize library
-const { Model, DataTypes } = require('sequelize');
-// import our database connection from config.js
-const sequelize = require('../config/connection');
+const { Schema, model } = require('mongoose');
+const dateFormat = require('../utils/dateFormat');
 
-// Initialize Product model (table) by extending off Sequelize's Model class
-class Product extends Model {}
-
-// set up fields and rules for Product model
-Product.init(
-  {
-    // define columns
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      allowNull: false,
-      autoIncrement: true
+// required field allows for custom message
+const FigureSchema = new Schema(
+    {
+    figureName: {
+        type: String,
+        required: 'You need to provide a figure name!',
+        trim: true
     },
-    product_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    createdBy: {
+        type: String,
+        required: 'Please provide a name!',
+        trim: true
     },
-    price: {
-      type: DataTypes.DECIMAL,
-      allowNull: false,
-      validate: {
-        isDecimal: true
-      }
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: (createdAtVal) => dateFormat(createdAtVal)
     },
-    stock: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 10,
-      validate: {
-        isNumeric: true
-      }
+    brand: {
+        type: String,
+        required: true,
+        enum: ['SH Figuarts', 'MAFEX', 'PlayArtsKai'],
+        default: 'MAFEX'
     },
-    category_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'category',
-        key: 'id'
-      }
+    comments: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ]
+    },
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true
+        },
+        id: false
     }
-  },
-  {
-    sequelize,
-    timestamps: false,
-    freezeTableName: true,
-    underscored: true,
-    modelName: 'product',
-  }
 );
 
-module.exports = Product;
+// get total count of comments and replies on retrieval
+FigureSchema.virtual('commentCount').get(function() {
+    return this.comments.reduce((total, comment) => total + comment.replies.length + 1, 0);
+});
+
+// create the pizza model using the PizzaSchema
+const Figure = model('Figure', FigureSchema);
+
+// exports the Pizza model
+module.exports = Figure;
