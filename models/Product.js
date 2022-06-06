@@ -9,6 +9,16 @@ const FigureSchema = new Schema(
         required: 'You need to provide a figure name!',
         trim: true
     },
+    releaseYear: {
+        type: String,
+        required: 'Please enter a year',
+        trim: true
+    },
+    figureScale: {
+        type: String,
+        required: 'Enter a scale(ex: 1/6, 1/12, 1/18',
+        trim: true
+    },
     createdBy: {
         type: String,
         required: 'Please provide a name!',
@@ -22,7 +32,7 @@ const FigureSchema = new Schema(
     brand: {
         type: String,
         required: true,
-        enum: ['SH Figuarts', 'MAFEX', 'PlayArtsKai'],
+        enum: ['SH Figuarts', 'MAFEX', 'PlayArtsKai', 'Nendroid', 'FIGMA'],
         default: 'MAFEX'
     },
     comments: [
@@ -46,8 +56,8 @@ FigureSchema.virtual('commentCount').get(function() {
     return this.comments.reduce((total, comment) => total + comment.replies.length + 1, 0);
 });
 
-// create the pizza model using the PizzaSchema
+// create the figure model using the FigureSchema
 const Figure = model('Figure', FigureSchema);
 
-// exports the Pizza model
+// exports the Figure model
 module.exports = Figure;
