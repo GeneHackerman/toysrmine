@@ -1,4 +1,4 @@
-const Figure = require('./Product');
+const Figure = require('./Figure');
 
 
 module.exports = { Figure };

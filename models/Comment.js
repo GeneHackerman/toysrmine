@@ -1,5 +1,4 @@
-const { Schema, model, Types } = require('mongoose');
-const dateFormat = require('../utils/dateFormat');
+const { Schema, model, Types, trusted } = require('mongoose');
 
 const ReplySchema = new Schema (
 {
@@ -17,11 +16,9 @@ const ReplySchema = new Schema (
         type: String,
         required: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        get: createdAtVal => dateFormat(createdAtVal)
     },
+    {
+        timeStamps: true
     },
     {
         toJSON: {
@@ -42,13 +39,11 @@ const CommentSchema = new Schema (
         required: true,
         trim: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        get: createdAtVal => dateFormat(createdAtVal)
-    },
     // use ReplySchema to validate data for a reply
     replies: [ReplySchema],
+   },
+   {
+    timeStamps: true
    },
    {
     toJSON: {

@@ -1,5 +1,6 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const db = require('./db');
+const routes = require('./routes/api');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -8,16 +9,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-app.use(require('./routes'));
+app.use('/api', routes);
 
+db.on('error', console.error.bind(console, 'mongoDB connection error:'));
 
-// Q: localhost can be changed? using this as starter code
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/pizza-hunt', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
-
-// use this to log mongo queries being executed!
-mongoose.set('debug', true);
 
 app.listen(PORT, () => console.log(`🌍 Connected on localhost:${PORT}`));
