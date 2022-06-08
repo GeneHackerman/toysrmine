@@ -2,6 +2,7 @@ const db = require('../db');
 
 const Comment = require('../models/Comment');
 
+//turns db on and connects
 db.on('error', console.error.bind(console, 'mongoDB connection error:'));
 
 const createComment = async() => {
