@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const dateFormat = require('../utils/dateFormat');
+// const dateFormat = require('../utils/dateFormat');
 
 // required field allows for custom message
 const FigureSchema = new Schema(
@@ -21,14 +21,14 @@ const FigureSchema = new Schema(
     },
     createdBy: {
         type: String,
-        required: 'Please provide a name!',
+        required: true,
         trim: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        get: (createdAtVal) => dateFormat(createdAtVal)
-    },
+    // createdAt: {
+    //     type: Date,
+    //     // default: Date.now,
+    //     // get: (createdAtVal) => dateFormat(createdAtVal)
+    // },
     brand: {
         type: String,
         required: true,

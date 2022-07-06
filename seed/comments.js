@@ -24,4 +24,4 @@ const run = async() => {
 
 run();
 
-// add figure.js to seed folder
+// node seed comments.js 

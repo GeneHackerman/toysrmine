@@ -8,8 +8,12 @@ db.on('error', console.error.bind(console, 'mongoDB connection error:'));
 const createFigure = async() => {
     const figures = [
         {
-            "writtenBy": "ComicBookGuy",
-            "FigureBody": "Worst figure ever."
+            "figureName": "The Mandalorian",
+            "releaseDate": "07/29/2021",
+            "figureScale": "1/12",
+            "category": "Action Figures",
+            "manufacturer": "Medicom",
+            "createdBy": "DS"
         }
     ]
     await Figure.insertMany(figures);
@@ -23,3 +27,5 @@ const run = async() => {
 }; 
 
 run();
+
+// node seed figures.js 

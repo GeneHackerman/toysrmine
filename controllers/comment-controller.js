@@ -13,3 +13,4 @@ const getComments = async(req, res) => {
 };
 
 module.exports = { getComments };
+
