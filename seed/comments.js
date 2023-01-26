@@ -24,4 +24,4 @@ const run = async() => {
 
 run();
 
-// node seed comments.js 
+//  node seed comments.js 
